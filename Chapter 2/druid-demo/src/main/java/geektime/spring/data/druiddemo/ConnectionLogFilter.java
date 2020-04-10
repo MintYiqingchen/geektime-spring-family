@@ -12,6 +12,7 @@ public class ConnectionLogFilter extends FilterEventAdapter {
 
     @Override
     public void connection_connectBefore(FilterChain chain, Properties info) {
+        info.keySet().forEach(System.out::println);
         log.info("BEFORE CONNECTION!");
     }
 

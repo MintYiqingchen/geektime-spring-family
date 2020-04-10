@@ -25,17 +25,20 @@ public class MultiDataSourceDemoApplication {
         SpringApplication.run(MultiDataSourceDemoApplication.class, args);
     }
 
-    @Bean
+    @Bean(value="foodpalise") // 多数据源的情况下，也可以通过指定Bean的name，在使用@Resouce注解的时候，参数使用对应的名称
     @ConfigurationProperties("foo.datasource")
     public DataSourceProperties fooDataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Bean
-    public DataSource fooDataSource() {
-        DataSourceProperties dataSourceProperties = fooDataSourceProperties();
-        log.info("foo datasource: {}", dataSourceProperties.getUrl());
-        return dataSourceProperties.initializeDataSourceBuilder().build();
+    @Bean // Bean注解的意思是，返回值作为Bean交给Spring框架管理
+    @Resource // Resource的意思是，从Spring管理的Bean中查找对应的Bean注入到该函数的参数集合中
+    public DataSource fooDataSource(DataSourceProperties foodpalise) {
+        // 可以通过localhost:8080/actuator/beans中看到fooDataSource这个Bean的依赖是foodpalise这个Bean
+
+        // DataSourceProperties dataSourceProperties = fooDataSourceProperties();
+        log.info("foo datasource: {}", foodpalise.getUrl());
+        return foodpalise.initializeDataSourceBuilder().build();
     }
 
     @Bean
@@ -52,7 +55,7 @@ public class MultiDataSourceDemoApplication {
 
     @Bean
     public DataSource barDataSource() {
-        DataSourceProperties dataSourceProperties = barDataSourceProperties();
+        DataSourceProperties dataSourceProperties = barDataSourceProperties(); // 手动注入Bean，而不是靠Resource自动注入
         log.info("bar datasource: {}", dataSourceProperties.getUrl());
         return dataSourceProperties.initializeDataSourceBuilder().build();
     }
