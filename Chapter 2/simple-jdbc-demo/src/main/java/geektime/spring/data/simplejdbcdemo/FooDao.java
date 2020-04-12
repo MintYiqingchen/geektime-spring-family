@@ -23,7 +23,7 @@ public class FooDao {
 
     public void insertData() {
         Arrays.asList("b", "c").forEach(bar -> {
-            jdbcTemplate.update("INSERT INTO FOO (BAR) VALUES (?)", bar);
+            jdbcTemplate.update("INSERT INTO FOO (BAR) VALUES (?)", bar); // insert, delete, update --> use .update()
         });
 
         HashMap<String, String> row = new HashMap<>();

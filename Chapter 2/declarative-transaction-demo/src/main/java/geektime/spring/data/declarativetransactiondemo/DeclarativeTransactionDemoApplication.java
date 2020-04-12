@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableTransactionManagement(mode = AdviceMode.PROXY)
+@EnableTransactionManagement(mode = AdviceMode.PROXY) // 一定要开启这个注解才能通过@Transaction注解配置事务，否则要通过applicationContext.xml文件进行配置
 @Slf4j
 public class DeclarativeTransactionDemoApplication implements CommandLineRunner {
 	@Autowired
@@ -38,7 +38,9 @@ public class DeclarativeTransactionDemoApplication implements CommandLineRunner 
 
 		try {
 			fooService.invokeInsertThenRollback();
+
 		} catch (Exception e) {
+		} finally {
 			log.info("BBB {}",
 					jdbcTemplate
 							.queryForObject("SELECT COUNT(*) FROM FOO WHERE BAR='BBB'", Long.class));

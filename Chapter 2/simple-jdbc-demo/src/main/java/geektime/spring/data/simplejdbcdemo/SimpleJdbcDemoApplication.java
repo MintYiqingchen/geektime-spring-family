@@ -15,6 +15,9 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @Slf4j
 public class SimpleJdbcDemoApplication implements CommandLineRunner {
+    /*
+     定义bean的几个常用注解：@Component；@Repository；@Service；@Controller；@RestController
+     */
     @Autowired
     private FooDao fooDao;
     @Autowired
@@ -39,7 +42,7 @@ public class SimpleJdbcDemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        fooDao.insertData();
+        // fooDao.insertData();
         batchFooDao.batchInsert();
         fooDao.listData();
     }

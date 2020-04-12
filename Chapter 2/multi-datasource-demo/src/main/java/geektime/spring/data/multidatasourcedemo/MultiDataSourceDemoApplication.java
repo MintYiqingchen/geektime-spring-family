@@ -15,6 +15,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+/*
+如果你只有一个DataSource，不要排除DataSourceAutoConfiguration，而是自己定义一个DataSource的Bean，这样SpringBoot就不会帮你配置Bean。
+然后指定spring.datasource.initialization-mode=always，这样不管是不是内嵌数据库都会执行初始化，我们在课程中有介绍过这个配置。
+ */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
         JdbcTemplateAutoConfiguration.class})
