@@ -33,5 +33,7 @@ public class ContextHierarchyDemoApplication implements ApplicationRunner {
 
 		bean = barContext.getBean("testBeanY", TestBean.class);
 		bean.hello();
+
+
 	}
 }
