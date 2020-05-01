@@ -104,7 +104,8 @@ public class CoffeeController {
     public ResponseEntity<Coffee> getById(@PathVariable Long id) {
         Coffee coffee = coffeeService.getCoffee(id);
         return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .lastModified(1) // 在响应里必须设置这个才能有触发302
+                .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
                 .body(coffee);
     }
 

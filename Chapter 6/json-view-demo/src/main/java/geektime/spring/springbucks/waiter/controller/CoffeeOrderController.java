@@ -31,9 +31,8 @@ public class CoffeeOrderController {
         return orderService.get(id);
     }
 
-    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED) // 对于response body来说，最后序列化后的格式是xml还是json，是需要由HttpRequest的Accept字段指明的，当然也要在pom文件里加上Jackson-xml依赖才能转换为xml文件
     public CoffeeOrder create(@RequestBody NewOrderRequest newOrder) {
         log.info("Receive new Order {}", newOrder);
         Coffee[] coffeeList = coffeeService.getCoffeeByName(newOrder.getItems())

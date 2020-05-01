@@ -41,26 +41,29 @@ public class CoffeeController {
     @Autowired
     private CoffeeService coffeeService;
 
-    @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
-    public Coffee addCoffee(@Valid NewCoffeeRequest newCoffee,
-                            BindingResult result) {
-        if (result.hasErrors()) {
-            // 这里先简单处理一下，后续讲到异常处理时会改
-            log.warn("Binding Errors: {}", result);
-            return null;
-        }
-        return coffeeService.saveCoffee(newCoffee.getName(), newCoffee.getPrice());
-    }
-
 //    @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 //    @ResponseBody
 //    @ResponseStatus(HttpStatus.CREATED)
-//    public Coffee addCoffeeWithoutBindingResult(@Valid NewCoffeeRequest newCoffee) {
+//    public Coffee addCoffee(@Valid NewCoffeeRequest newCoffee,
+//                            BindingResult result) { // 这里使用bindingResult自己控制如果不valid会发生什么
+//        if (result.hasErrors()) {
+//            // 这里先简单处理一下，后续讲到异常处理时会改
+//            log.warn("Binding Errors: {}", result);
+//            return null;
+//        }
 //        return coffeeService.saveCoffee(newCoffee.getName(), newCoffee.getPrice());
 //    }
 
+    @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED) // @Valid注解加不加好想没什么区别？？
+    public Coffee addCoffeeWithoutBindingResult(@Valid NewCoffeeRequest newCoffee) {
+        return coffeeService.saveCoffee(newCoffee.getName(), newCoffee.getPrice());
+    }
+
+    /*
+    我想你好奇的是这里为什么我不用RequstBody吧？这个注解是把整个请求的Body传给参数，而RequestParam是可以把Body里的对应部分取出来传给参数。
+     */
     @PostMapping(path = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)

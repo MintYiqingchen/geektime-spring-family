@@ -48,7 +48,7 @@ public class CoffeeController {
                             BindingResult result) {
         if (result.hasErrors()) {
             log.warn("Binding Errors: {}", result);
-            throw new FormValidationException(result);
+            throw new FormValidationException(result); // 如果在GlobalControllerAdvice中设置了这个类的handler，就会被那个handler处理
         }
         return coffeeService.saveCoffee(newCoffee.getName(), newCoffee.getPrice());
     }
